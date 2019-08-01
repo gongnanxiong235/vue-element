@@ -3,6 +3,7 @@ import news from './components/news.vue'
 import photo from './components/photo'
 import BlogList from './components/BlogList'
 import BlogAdd from './components/BlogAdd'
+import Loading from './components/Loading'
 
 export default {
     mode: 'history',
@@ -26,6 +27,10 @@ export default {
         {
             path: "/addblog",
             component: BlogAdd
+        },
+        {
+            path: "/loading",
+            component: Loading
         },
 
     ]
