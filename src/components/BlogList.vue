@@ -87,7 +87,7 @@
 
         <!--dialog+form:更新-->
         <el-dialog title="更新链接" :visible.sync="dialogFormVisible1" width="350px" :center="true"
-                   :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+                   :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" @close="close_add_dialog">
             <!--ruleForm-->
             <el-form :model="ruleForm" :label-position="labelPosition" :rules="rules" ref="ruleForm">
                 <el-form-item label="著作名称" prop="title">
@@ -110,7 +110,8 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible1 = false">取 消</el-button>
+                <!--dialogFormVisible1 = false-->
+                <el-button @click="dialogFormVisible1=false">取 消</el-button>
                 <el-button type="primary" @click="submit_update('ruleForm',form_update.index,form_update.row)">更 新
                 </el-button>
             </div>
@@ -185,7 +186,7 @@
                     this.flushData(this.currentPage)
                 } else {
                     console.log(3333333333)
-                    this.loading=true
+                    this.loading = true
                     this.$http.post("http://127.0.0.1:8888/vueapi/blogseach", {keyword: this.keyword}).then(function (response) {
                         console.log(response)
                         if (response.status === 200) {
@@ -197,17 +198,17 @@
                                     if (this.tableData.results[i].create_time != null) {
                                         //python 默认返回的时间字符串格式为2019-07-31T06:32:19Z   前端处理字符串：去掉T 和 Z
                                         this.tableData.results[i].create_time = this.tableData.results[i].create_time.replace("T", " ").replace("Z", "")
-                                        this.loading=false
+                                        this.loading = false
                                     }
                                 }
 
                             } else {
                                 this.$message("请求数据失败")
-                                this.loading=false
+                                this.loading = false
                             }
 
                         } else {
-                            this.loading=false
+                            this.loading = false
                         }
                     })
 
@@ -344,13 +345,16 @@
                                     // 更新成功
                                     this.$message('更新成功')
                                     this.dialogFormVisible1 = false
+                                    this.ruleForm = {}
                                     this.flushData(this.currentPage)
 
                                 } else {
+                                    this.ruleForm = {}
                                     this.$message(response.data.message)
                                 }
 
                             } else {
+                                this.ruleForm = {}
                                 this.$message("服务器开小差了")
                             }
 
